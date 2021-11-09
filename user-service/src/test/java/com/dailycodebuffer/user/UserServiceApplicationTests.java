@@ -58,6 +58,8 @@ class UserServiceApplicationTests {
 		HttpResponse getUserRequestResponse = HttpClientBuilder.create().build().execute(getUserRequest);
 		assertThat(getUserRequestResponse.getStatusLine().getStatusCode()).isEqualTo(HttpStatus.SC_OK);
 		User userResponse = TestUtil.retrieveResourceFromResponse(getUserRequestResponse, User.class);
+		System.out.println("MB userResponse getDepartmentId "+userResponse.getDepartmentId());
+		System.out.println("MB departmentId "+departmentId);
 		assertThat(userResponse.getDepartmentId()).isEqualTo(departmentId);
 	}
 }
