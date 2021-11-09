@@ -21,4 +21,11 @@ public class Department {
     private String departmentName;
     private String departmentAddress;
     private String departmentCode;
+
+    public Department(String departmentName, String departmentAddress, String departmentCode)
+    {
+        this.departmentName = departmentName;
+        this.departmentAddress = departmentAddress;
+        this.departmentCode = departmentCode;
+    }
 }

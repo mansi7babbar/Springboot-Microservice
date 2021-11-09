@@ -25,7 +25,7 @@ class UserServiceApplicationTests {
 	@Test
 	public void testPostUser() throws IOException {
 		HttpPost postRequest = new HttpPost(cloudGatewayURL + "/users/");
-		User user = new User((long)1, "Test UserFirstName", "Test UserLastName", "testUserEmail@gmail.com", (long)1);
+		User user = new User("Test UserFirstName", "Test UserLastName", "testUserEmail@gmail.com", 1);
 		StringEntity userEntity = new StringEntity(mapper.writeValueAsString(user), ContentType.APPLICATION_JSON);
 		postRequest.setEntity(userEntity);
 		HttpResponse httpPostResponse = HttpClientBuilder.create().build().execute(postRequest);
@@ -35,22 +35,29 @@ class UserServiceApplicationTests {
 	@Test
 	public void testGetUser() throws IOException {
 		HttpPost postDepartmentRequest = new HttpPost(cloudGatewayURL + "/departments/");
-		Department department = new Department((long)3, "Test Department", "Test Department Address", "Test Department Code");
+		Department department = new Department("Test Department", "Test Department Address", "Test Department Code");
 		StringEntity departmentEntity = new StringEntity(mapper.writeValueAsString(department), ContentType.APPLICATION_JSON);
 		postDepartmentRequest.setEntity(departmentEntity);
 		HttpResponse postDepartmentRequestResponse = HttpClientBuilder.create().build().execute(postDepartmentRequest);
 		assertThat(postDepartmentRequestResponse.getStatusLine().getStatusCode()).isEqualTo(HttpStatus.SC_OK);
 
+		Department postDepartmentResponse = TestUtil.retrieveResourceFromResponse(postDepartmentRequestResponse, Department.class);
+		long departmentId = postDepartmentResponse.getDepartmentId();
+
 		HttpPost postUserRequest = new HttpPost(cloudGatewayURL + "/users/");
-		User user = new User((long)2, "Test UserFirstName", "Test UserLastName", "testUserEmail@gmail.com", (long)3);
+		User user = new User("Test UserFirstName", "Test UserLastName", "testUserEmail@gmail.com", departmentId);
 		StringEntity userEntity = new StringEntity(mapper.writeValueAsString(user), ContentType.APPLICATION_JSON);
 		postUserRequest.setEntity(userEntity);
 		HttpResponse postUserRequestResponse = HttpClientBuilder.create().build().execute(postUserRequest);
 		assertThat(postUserRequestResponse.getStatusLine().getStatusCode()).isEqualTo(HttpStatus.SC_OK);
 
-		long userId = 2;
+		User postUserResponse = TestUtil.retrieveResourceFromResponse(postUserRequestResponse, User.class);
+		long userId = postUserResponse.getUserId();
+
 		HttpGet getUserRequest = new HttpGet(cloudGatewayURL + "/users/" + userId);
 		HttpResponse getUserRequestResponse = HttpClientBuilder.create().build().execute(getUserRequest);
 		assertThat(getUserRequestResponse.getStatusLine().getStatusCode()).isEqualTo(HttpStatus.SC_OK);
+		User userResponse = TestUtil.retrieveResourceFromResponse(getUserRequestResponse, User.class);
+		assertThat(userResponse.getDepartmentId()).isEqualTo(departmentId);
 	}
 }

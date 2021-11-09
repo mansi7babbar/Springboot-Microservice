@@ -22,4 +22,12 @@ public class User {
     private String lastName;
     private String email;
     private Long departmentId;
+
+    public User(String firstName, String lastName, String email, long departmentId)
+    {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.departmentId = departmentId;
+    }
 }

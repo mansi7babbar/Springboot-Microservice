@@ -34,14 +34,19 @@ class DepartmentServiceApplicationTests {
 	@Test
 	public void testGetDepartment() throws IOException {
 		HttpPost postRequest = new HttpPost(cloudGatewayURL + "/departments/");
-		Department department = new Department((long)2, "Test Department", "Test Department Address", "Test Department Code");
+		Department department = new Department("Test Department", "Test Department Address", "Test Department Code");
 		StringEntity departmentEntity = new StringEntity(mapper.writeValueAsString(department), ContentType.APPLICATION_JSON);
 		postRequest.setEntity(departmentEntity);
-		HttpClientBuilder.create().build().execute(postRequest);
+		HttpResponse postDepartmentRequestResponse = HttpClientBuilder.create().build().execute(postRequest);
+		assertThat(postDepartmentRequestResponse.getStatusLine().getStatusCode()).isEqualTo(HttpStatus.SC_OK);
 
-		int departmentId = 2;
+		Department postDepartmentResponse = TestUtil.retrieveResourceFromResponse(postDepartmentRequestResponse, Department.class);
+		long departmentId = postDepartmentResponse.getDepartmentId();
+
 		HttpGet getRequest = new HttpGet(cloudGatewayURL + "/departments/" + departmentId);
-		HttpResponse httpGetResponse = HttpClientBuilder.create().build().execute(getRequest);
-		assertThat(httpGetResponse.getStatusLine().getStatusCode()).isEqualTo(HttpStatus.SC_OK);
+		HttpResponse getDepartmentRequestResponse = HttpClientBuilder.create().build().execute(getRequest);
+		assertThat(getDepartmentRequestResponse.getStatusLine().getStatusCode()).isEqualTo(HttpStatus.SC_OK);
+		Department departmentResponse = TestUtil.retrieveResourceFromResponse(getDepartmentRequestResponse, Department.class);
+		assertThat(departmentResponse.getDepartmentId()).isEqualTo(departmentId);
 	}
 }
