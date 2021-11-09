@@ -25,7 +25,7 @@ class UserServiceApplicationTests {
 	@Test
 	public void testPostUser() throws IOException {
 		HttpPost postRequest = new HttpPost(cloudGatewayURL + "/users/");
-		User user = new User((long)1001, "Test UserFirstName", "Test UserLastName", "testUserEmail@gmail.com", (long)1);
+		User user = new User((long)1, "Test UserFirstName", "Test UserLastName", "testUserEmail@gmail.com", (long)1);
 		StringEntity userEntity = new StringEntity(mapper.writeValueAsString(user), ContentType.APPLICATION_JSON);
 		postRequest.setEntity(userEntity);
 		HttpResponse httpPostResponse = HttpClientBuilder.create().build().execute(postRequest);
@@ -42,13 +42,13 @@ class UserServiceApplicationTests {
 		assertThat(postDepartmentRequestResponse.getStatusLine().getStatusCode()).isEqualTo(HttpStatus.SC_OK);
 
 		HttpPost postUserRequest = new HttpPost(cloudGatewayURL + "/users/");
-		User user = new User((long)1002, "Test UserFirstName", "Test UserLastName", "testUserEmail@gmail.com", (long)3);
+		User user = new User((long)2, "Test UserFirstName", "Test UserLastName", "testUserEmail@gmail.com", (long)3);
 		StringEntity userEntity = new StringEntity(mapper.writeValueAsString(user), ContentType.APPLICATION_JSON);
 		postUserRequest.setEntity(userEntity);
 		HttpResponse postUserRequestResponse = HttpClientBuilder.create().build().execute(postUserRequest);
 		assertThat(postUserRequestResponse.getStatusLine().getStatusCode()).isEqualTo(HttpStatus.SC_OK);
 
-		long userId = 1002;
+		long userId = 2;
 		HttpGet getUserRequest = new HttpGet(cloudGatewayURL + "/users/" + userId);
 		HttpResponse getUserRequestResponse = HttpClientBuilder.create().build().execute(getUserRequest);
 		assertThat(getUserRequestResponse.getStatusLine().getStatusCode()).isEqualTo(HttpStatus.SC_OK);
