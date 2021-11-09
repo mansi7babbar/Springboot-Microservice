@@ -31,6 +31,8 @@ class UserServiceApplicationTests {
 		postRequest.setEntity(userEntity);
 		HttpResponse httpPostResponse = HttpClientBuilder.create().build().execute(postRequest);
 		assertThat(httpPostResponse.getStatusLine().getStatusCode()).isEqualTo(HttpStatus.SC_OK);
+		User postUserResponse = TestUtil.retrieveResourceFromResponse(httpPostResponse, User.class);
+		assertThat(postUserResponse.getFirstName()).isEqualTo("Test UserFirstName");
 	}
 
 	@Test

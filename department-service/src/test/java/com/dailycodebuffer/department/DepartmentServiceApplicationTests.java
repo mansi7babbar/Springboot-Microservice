@@ -29,6 +29,8 @@ class DepartmentServiceApplicationTests {
 		postRequest.setEntity(departmentEntity);
 		HttpResponse httpPostResponse = HttpClientBuilder.create().build().execute(postRequest);
 		assertThat(httpPostResponse.getStatusLine().getStatusCode()).isEqualTo(HttpStatus.SC_OK);
+		Department postDepartmentResponse = TestUtil.retrieveResourceFromResponse(httpPostResponse, Department.class);
+		assertThat(postDepartmentResponse.getDepartmentName()).isEqualTo("Test Department");
 	}
 
 	@Test
