@@ -1,6 +1,7 @@
 package com.dailycodebuffer.user;
 
 import com.dailycodebuffer.user.VO.Department;
+import com.dailycodebuffer.user.VO.ResponseTemplateVO;
 import com.dailycodebuffer.user.entity.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.http.HttpResponse;
@@ -57,9 +58,7 @@ class UserServiceApplicationTests {
 		HttpGet getUserRequest = new HttpGet(cloudGatewayURL + "/users/" + userId);
 		HttpResponse getUserRequestResponse = HttpClientBuilder.create().build().execute(getUserRequest);
 		assertThat(getUserRequestResponse.getStatusLine().getStatusCode()).isEqualTo(HttpStatus.SC_OK);
-		User userResponse = TestUtil.retrieveResourceFromResponse(getUserRequestResponse, User.class);
-		System.out.println("MB userResponse getDepartmentId "+userResponse.getDepartmentId());
-		System.out.println("MB departmentId "+departmentId);
-		assertThat(userResponse.getDepartmentId()).isEqualTo(departmentId);
+		ResponseTemplateVO userDepartmentResponse = TestUtil.retrieveResourceFromResponse(getUserRequestResponse, ResponseTemplateVO.class);
+		assertThat(userDepartmentResponse.getDepartment().getDepartmentId()).isEqualTo(departmentId);
 	}
 }
