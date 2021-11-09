@@ -48,7 +48,7 @@ class UserServiceApplicationTests {
 		HttpResponse postUserRequestResponse = HttpClientBuilder.create().build().execute(postUserRequest);
 		assertThat(postUserRequestResponse.getStatusLine().getStatusCode()).isEqualTo(HttpStatus.SC_OK);
 
-		int userId = 1002;
+		long userId = 1002;
 		HttpGet getUserRequest = new HttpGet(cloudGatewayURL + "/users/" + userId);
 		HttpResponse getUserRequestResponse = HttpClientBuilder.create().build().execute(getUserRequest);
 		assertThat(getUserRequestResponse.getStatusLine().getStatusCode()).isEqualTo(HttpStatus.SC_OK);
