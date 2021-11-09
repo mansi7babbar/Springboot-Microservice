@@ -38,17 +38,19 @@ class UserServiceApplicationTests {
 		Department department = new Department((long)3, "Test Department", "Test Department Address", "Test Department Code");
 		StringEntity departmentEntity = new StringEntity(mapper.writeValueAsString(department), ContentType.APPLICATION_JSON);
 		postDepartmentRequest.setEntity(departmentEntity);
-		HttpClientBuilder.create().build().execute(postDepartmentRequest);
+		HttpResponse postDepartmentRequestResponse = HttpClientBuilder.create().build().execute(postDepartmentRequest);
+		assertThat(postDepartmentRequestResponse.getStatusLine().getStatusCode()).isEqualTo(HttpStatus.SC_OK);
 
 		HttpPost postUserRequest = new HttpPost(cloudGatewayURL + "/users/");
 		User user = new User((long)1002, "Test UserFirstName", "Test UserLastName", "testUserEmail@gmail.com", (long)3);
 		StringEntity userEntity = new StringEntity(mapper.writeValueAsString(user), ContentType.APPLICATION_JSON);
 		postUserRequest.setEntity(userEntity);
-		HttpClientBuilder.create().build().execute(postUserRequest);
+		HttpResponse postUserRequestResponse = HttpClientBuilder.create().build().execute(postUserRequest);
+		assertThat(postUserRequestResponse.getStatusLine().getStatusCode()).isEqualTo(HttpStatus.SC_OK);
 
 		int userId = 1002;
 		HttpGet getUserRequest = new HttpGet(cloudGatewayURL + "/users/" + userId);
-		HttpResponse httpGetResponse = HttpClientBuilder.create().build().execute(getUserRequest);
-		assertThat(httpGetResponse.getStatusLine().getStatusCode()).isEqualTo(HttpStatus.SC_OK);
+		HttpResponse getUserRequestResponse = HttpClientBuilder.create().build().execute(getUserRequest);
+		assertThat(getUserRequestResponse.getStatusLine().getStatusCode()).isEqualTo(HttpStatus.SC_OK);
 	}
 }
