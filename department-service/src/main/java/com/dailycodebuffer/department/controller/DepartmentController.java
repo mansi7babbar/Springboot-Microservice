@@ -21,8 +21,8 @@ public class DepartmentController {
     }
 
     @GetMapping("/{id}")
-    public Department findDepartmentById(Long departmentId) {
-        log.info("Inside findDepartmentById method of DepartmentController"); 
+    public Department findDepartmentById(@PathVariable("id") Long departmentId) {
+        log.info("Inside findDepartmentById method of DepartmentController");
         return departmentService.findDepartmentById(departmentId);
     }
 
