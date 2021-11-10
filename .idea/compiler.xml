@@ -11,7 +11,6 @@
         <module name="department-service" />
         <module name="cloud-gateway" />
         <module name="service-registry" />
-        <module name="hystrix-dashboard" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
