@@ -68,6 +68,14 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+
+<!--		<dependency>-->
+<!--			<groupId>io.thundra.agent</groupId>-->
+<!--			<artifactId>thundra-agent-trace-instrument-metadatagen</artifactId>-->
+<!--			<scope>test</scope>-->
+<!--			<version>${thundra.version}</version>-->
+<!--		</dependency>-->
+
 	</dependencies>
 
 	<dependencyManagement>
